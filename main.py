@@ -1,6 +1,7 @@
 import glob
 import os
 
+import my_actions 
 from asyncflows import AsyncFlows
 
 def get_latest_directory(document_folder='documents'):
@@ -34,7 +35,8 @@ async def main():
 
     # Get the user's query via CLI interface
     try:
-        message = input("What's your essay question: ")
+        # message = input("What's your essay question: ")
+        message = "Comparing Lydia Goehr's explanation of 'The Beethoven Paradigm' of musical works to Nicholas Cook's in 'The Other Beethoven'."
     except EOFError:
         return
 
@@ -48,6 +50,3 @@ if __name__ == "__main__":
 
     asyncio.run(main())
 
-
-
-    
