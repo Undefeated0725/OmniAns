@@ -1,8 +1,8 @@
-from aijson import Flow
-import asyncio
-from dotenv import load_dotenv
 import glob
 import os
+
+import my_actions 
+from aijson import Flow
 
 def get_latest_directory(document_folder='documents'):
     existing_folders = glob.glob(os.path.join(document_folder, '*'))
@@ -11,9 +11,6 @@ def get_latest_directory(document_folder='documents'):
         return None
     latest_folder = str(max(existing_numbers))
     return os.path.join(document_folder, latest_folder)
-
-# load environment variables from .env
-load_dotenv()
 
 async def main():
     # Get the latest directory
@@ -30,23 +27,26 @@ async def main():
     if not document_paths:
         print(f"No PDFs found in {latest_directory}.")
         return
-    
-    # load the flow
-    flow = Flow.from_file('omniAns.ai.yaml').set_vars(
+
+    # Load the chatbot flow
+    flow = Flow.from_file("omniAns.ai.yaml").set_vars(
         pdf_filepaths=document_paths,
     )
 
-    # set any variables
-    message = "Comparing Lydia Goehr's explanation of 'The Beethoven Paradigm' of musical works to Nicholas Cook's in 'The Other Beethoven'."
-    flow = flow.set_vars(message=message)
+    # Get the user's query via CLI interface
+    try:
+        # message = input("What's your essay question: ")
+        message = "Comparing Lydia Goehr's explanation of 'The Beethoven Paradigm' of musical works to Nicholas Cook's in 'The Other Beethoven'."
+    except EOFError:
+        return
 
-    # run it
-    result = await flow.run()
+    # Set the query and run the flow
+    query_flow = flow.set_vars(message=message)
+    result = await query_flow.run()
     print(result)
 
-    # alternatively, INSTEAD of running it, stream it
-    async for result in flow.stream():
-        print(result)
+if __name__ == "__main__":
+    import asyncio
 
-if __name__ == '__main__':
     asyncio.run(main())
+

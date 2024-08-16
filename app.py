@@ -9,7 +9,7 @@ from starlette.responses import RedirectResponse
 from typing import List
 
 class PDFChatbot:
-    def __init__(self, document_folder='documents', config_file='omniAns.yaml'):
+    def __init__(self, document_folder='documents', config_file='omniAns.ai.yaml'):
         self.document_folder = document_folder
         self.config_file = config_file
         self.flow = None

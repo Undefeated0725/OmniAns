@@ -1,4 +1,4 @@
-from asyncflows.actions.base import Action, BaseModel
+from aijson import register_action
 
 class Inputs(BaseModel):
     string: str

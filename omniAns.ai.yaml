@@ -1,14 +1,11 @@
 version: "0.1"
 
 default_model:
-    model: ollama/llama3:8b
-    max_output_tokens: 4096
-    max_prompt_tokens: 10000
-action_timeout: 9999999999
+    model: azure/welight-4o
 
 flow:
     insight_analyst:
-        action: prompt
+        action: llm
         prompt:
             - text: |
                 You are an expert in brainstorming, analyzing, and researching. You are given a research question: 
@@ -18,84 +15,84 @@ flow:
                 Your task is to generate a list of sub-questions that are related to this and will help in building a professional research thesis.
             
     structural_outlining:
-        action: prompt
+        action: llm
         prompt: 
-        - text: |
-            You are professional. You are in charge of structuring an essay that answers this question:
-            
-            {{ message }}
+            - text: |
+                You are professional. You are in charge of structuring an essay that answers this question:
+                
+                {{ message }}
 
-            Your colleague has brainstormed a list of sub-questions related to this essay. Take advantage of these and structure your argument. Your output should be a list of paragraphs that include:
+                Your colleague has brainstormed a list of sub-questions related to this essay. Take advantage of these and structure your argument. Your output should be a list of paragraphs that include:
 
-            1) What the paragraph is for.
-            2) What evidence is needed.
-            3) How is the argument developed. 
+                1) What the paragraph is for.
+                2) What evidence is needed.
+                3) How is the argument developed. 
 
-            Do not generate anything else except the list.
+                Do not generate anything else except the list.
 
-            List of sub-questions to explore
+                List of sub-questions to explore
 
-            {{ insight_analyst.result }}
+                {{ insight_analyst.result }}
 
-            An Example Output Should be: 
+                An Example Output Should be: 
 
-            [
-                {
-                    "section": "Introduction",
-                    "purpose": "To introduce the topic and provide a thesis statement.",
-                    "evidence_needed": "General background information on digitization and simulation, including definitions and context.",
-                    "argument_development": "Explain the increasing relevance of digitizing and simulating the physical world, highlighting its significance in modern technology and society."
-                },
-                { 
-                    "section": "Benefits of Digitizing and Simulating the Physical World",
-                    "purpose": "To outline the key advantages of digitization and simulation.",
-                    "evidence_needed": "Case studies, statistics, and expert opinions demonstrating benefits like improved efficiency, accuracy, and cost savings.",
-                    "argument_development": "Detail specific examples where digitization has led to significant improvements in various industries, such as manufacturing, healthcare, and urban planning."
-                },
-                {
-                    "section": "Improvement in Efficiency and Productivity",
-                    "purpose": "To discuss how digitization enhances operational efficiency and productivity.",
-                    "evidence_needed": "Examples from industries that have successfully implemented digitization, along with productivity metrics and performance reports.",
-                    "argument_development": "Explain how digital tools and simulations streamline processes, reduce errors, and enable faster decision-making."
-                },
-                {
-                    "section": "Potential Risks and Challenges",
-                    "purpose": "To address the potential downsides of digitizing the physical world.",
-                    "evidence_needed": "Analysis of data security issues, technological dependency, and case studies of digitization failures.",
-                    "argument_development": "Present a balanced view by acknowledging the risks and proposing solutions to mitigate these challenges."
-                },
-                {
-                    "section": "Contribution to Scientific Research and Innovation",
-                    "purpose": "To explore how digitization drives scientific advancements and innovation.",
-                    "evidence_needed": "Examples of digital simulations in scientific research, technological breakthroughs, and innovation metrics.",
-                    "argument_development": "Illustrate the role of digital simulations in modeling complex systems, accelerating research, and fostering innovation."
-                },
-                {
-                    "section": "Economic Implications",
-                    "purpose": "To examine the economic impact of digitization.",
-                    "evidence_needed": "Economic reports, market analysis, and expert forecasts on the financial benefits and job market shifts due to digitization.",
-                    "argument_development": "Discuss how digitization contributes to economic growth, creates new job opportunities, and transforms existing industries."
-                },
-                {
-                    "section": "Impact on Environmental Sustainability",
-                    "purpose": "To assess how digitization affects environmental sustainability.",
-                    "evidence_needed": "Environmental studies, carbon footprint analyses, and examples of sustainable practices enabled by digitization.",
-                    "argument_development": "Explain how digital tools and simulations help optimize resource usage, reduce waste, and promote sustainable practices."
-                },
-                {
-                    "section": "Role in Education and Training",
-                    "purpose": "To explore the impact of digitization on education and training.",
-                    "evidence_needed": "Studies on digital learning tools, training program effectiveness, and educational outcomes.",
-                    "argument_development": "Highlight how digitization enhances learning experiences, provides access to new educational resources, and improves training efficiency."
-                },
-                {
-                    "section": "Conclusion",
-                    "purpose": "To summarize the main arguments and reinforce the thesis statement.",
-                    "evidence_needed": "Recap of key points discussed in the essay.",
-                    "argument_development": "Conclude by emphasizing the overall benefits of digitizing and simulating the physical world while acknowledging the importance of addressing associated challenges."
-                }
-                ]
-            Put the output between <output> and </output> tags.
+                [
+                    {
+                        "section": "Introduction",
+                        "purpose": "To introduce the topic and provide a thesis statement.",
+                        "evidence_needed": "General background information on digitization and simulation, including definitions and context.",
+                        "argument_development": "Explain the increasing relevance of digitizing and simulating the physical world, highlighting its significance in modern technology and society."
+                    },
+                    { 
+                        "section": "Benefits of Digitizing and Simulating the Physical World",
+                        "purpose": "To outline the key advantages of digitization and simulation.",
+                        "evidence_needed": "Case studies, statistics, and expert opinions demonstrating benefits like improved efficiency, accuracy, and cost savings.",
+                        "argument_development": "Detail specific examples where digitization has led to significant improvements in various industries, such as manufacturing, healthcare, and urban planning."
+                    },
+                    {
+                        "section": "Improvement in Efficiency and Productivity",
+                        "purpose": "To discuss how digitization enhances operational efficiency and productivity.",
+                        "evidence_needed": "Examples from industries that have successfully implemented digitization, along with productivity metrics and performance reports.",
+                        "argument_development": "Explain how digital tools and simulations streamline processes, reduce errors, and enable faster decision-making."
+                    },
+                    {
+                        "section": "Potential Risks and Challenges",
+                        "purpose": "To address the potential downsides of digitizing the physical world.",
+                        "evidence_needed": "Analysis of data security issues, technological dependency, and case studies of digitization failures.",
+                        "argument_development": "Present a balanced view by acknowledging the risks and proposing solutions to mitigate these challenges."
+                    },
+                    {
+                        "section": "Contribution to Scientific Research and Innovation",
+                        "purpose": "To explore how digitization drives scientific advancements and innovation.",
+                        "evidence_needed": "Examples of digital simulations in scientific research, technological breakthroughs, and innovation metrics.",
+                        "argument_development": "Illustrate the role of digital simulations in modeling complex systems, accelerating research, and fostering innovation."
+                    },
+                    {
+                        "section": "Economic Implications",
+                        "purpose": "To examine the economic impact of digitization.",
+                        "evidence_needed": "Economic reports, market analysis, and expert forecasts on the financial benefits and job market shifts due to digitization.",
+                        "argument_development": "Discuss how digitization contributes to economic growth, creates new job opportunities, and transforms existing industries."
+                    },
+                    {
+                        "section": "Impact on Environmental Sustainability",
+                        "purpose": "To assess how digitization affects environmental sustainability.",
+                        "evidence_needed": "Environmental studies, carbon footprint analyses, and examples of sustainable practices enabled by digitization.",
+                        "argument_development": "Explain how digital tools and simulations help optimize resource usage, reduce waste, and promote sustainable practices."
+                    },
+                    {
+                        "section": "Role in Education and Training",
+                        "purpose": "To explore the impact of digitization on education and training.",
+                        "evidence_needed": "Studies on digital learning tools, training program effectiveness, and educational outcomes.",
+                        "argument_development": "Highlight how digitization enhances learning experiences, provides access to new educational resources, and improves training efficiency."
+                    },
+                    {
+                        "section": "Conclusion",
+                        "purpose": "To summarize the main arguments and reinforce the thesis statement.",
+                        "evidence_needed": "Recap of key points discussed in the essay.",
+                        "argument_development": "Conclude by emphasizing the overall benefits of digitizing and simulating the physical world while acknowledging the importance of addressing associated challenges."
+                    }
+                    ]
+                Put the output between <output> and </output> tags.
 
     extract_outlining:
         action: extract_xml_tag
@@ -117,150 +114,150 @@ flow:
             summarize:
                 action: prompt
                 prompt:
-                - text: |
-                    Summarize the core idea and essential information of the pdf structurally. 
-                    {{ extractor.full_text }}
+                    - text: |
+                        Summarize the core idea and essential information of the pdf structurally. 
+                        {{ extractor.full_text }}
 
     restructurer:
-        action: prompt
+        action: llm
         prompt:
-        - text: |
-            You are a professor from Oxford. You are in charge of revising the first draft of a structure of an essay written by a bright student. The student has not read anything before, so you will pay attention to combining the context into the structure to update a better one. 
+            - text: |
+                You are a professor from Oxford. You are in charge of revising the first draft of a structure of an essay written by a bright student. The student has not read anything before, so you will pay attention to combining the context into the structure to update a better one. 
 
-            Make sure that nothing other than the new structure is outputed. 
+                Make sure that nothing other than the new structure is outputed. 
 
-            The question to answer is: 
+                The question to answer is: 
 
-            {{message}}
+                {{message}}
 
-            Your student has provided you with the following outlining structure: 
+                Your student has provided you with the following outlining structure: 
 
-            {{extract_outlining.result}}
+                {{extract_outlining.result}}
 
-            The summarised context you will use to revise & upgrade the structure:
+                The summarised context you will use to revise & upgrade the structure:
 
-            {% for pdf_result in extract_pdf_texts %}
-                {{pdf_result.summarize.result}}
-            {% endfor %}
+                {% for pdf_result in extract_pdf_texts %}
+                    {{pdf_result.summarize.result}}
+                {% endfor %}
 
-            Sample Outlining Structure:
+                Sample Outlining Structure:
 
-            [
-                {
-                    "section": "Introduction",
-                    "purpose": "To introduce the topic and provide a thesis statement.",
-                    "evidence_needed": "General background information on the history and cultural contexts of ancient texts, including definitions and context.",
-                    "argument_development": "Explain the significance of understanding the historical and cultural contexts of ancient texts, highlighting the potential risks and benefits of citing them without full comprehension."
-                },
-                {
-                    "section": "Benefits of Citing Ancient Texts Without Full Understanding",
-                    "purpose": "To outline the key advantages of citing ancient texts without fully understanding their context or meaning.",
-                    "evidence_needed": "Case studies, expert opinions, and historical examples demonstrating how citing ancient texts has led to significant breakthroughs or challenges in various fields.",
-                    "argument_development": "Detail specific instances where citing ancient texts without full understanding has contributed to the development of new ideas or perspectives, while acknowledging potential limitations."
-                },
-                {
-                    "section": "Limitations and Challenges of Citing Ancient Texts Without Full Understanding",
-                    "purpose": "To discuss the drawbacks of citing ancient texts without fully understanding their context or meaning.",
-                    "evidence_needed": "Examples of how cultural biases have influenced interpretations of ancient texts, along with case studies of unsuccessful attempts to interpret them without full comprehension.",
-                    "argument_development": "Explain how scholars' preconceptions and limitations in understanding the historical and cultural contexts of ancient texts can lead to misinterpretations or misunderstandings."
-                },
-                {
-                    "section": "Power Dynamics and Cultural Heritage",
-                    "purpose": "To explore the role of power dynamics in shaping the way ancient texts are interpreted and used.",
-                    "evidence_needed": "Examples of how colonialism, imperialism, or other forms of cultural domination have influenced the interpretation and use of ancient texts, along with case studies of disputes over ownership or control.",
-                    "argument_development": "Discuss how power dynamics affect the transmission, translation, and dissemination of ancient texts throughout history, highlighting potential ethical implications."
-                },
-                {
-                    "section": "Methods for Better Understanding Ancient Texts",
-                    "purpose": "To explore methods and tools available for scholars to better understand the context and meaning of ancient texts.",
-                    "evidence_needed": "Notable advances in archaeology, epigraphy, or other relevant fields that have improved our understanding of ancient contexts, along with examples of interdisciplinary approaches.",
-                    "argument_development": "Highlight the importance of developing new methods and tools for scholars to better understand ancient texts, including the potential role of digital humanities and computational methods."
-                },
-                {
-                    "section": "Conclusion",
-                    "purpose": "To summarize the main arguments and reinforce the thesis statement.",
-                    "evidence_needed": "Recap of key points discussed in the essay.",
-                    "argument_development": "Conclude by emphasizing the importance of understanding the historical and cultural contexts of ancient texts while acknowledging the potential benefits and limitations of citing them without full comprehension."
-                }
-            ]
+                [
+                    {
+                        "section": "Introduction",
+                        "purpose": "To introduce the topic and provide a thesis statement.",
+                        "evidence_needed": "General background information on the history and cultural contexts of ancient texts, including definitions and context.",
+                        "argument_development": "Explain the significance of understanding the historical and cultural contexts of ancient texts, highlighting the potential risks and benefits of citing them without full comprehension."
+                    },
+                    {
+                        "section": "Benefits of Citing Ancient Texts Without Full Understanding",
+                        "purpose": "To outline the key advantages of citing ancient texts without fully understanding their context or meaning.",
+                        "evidence_needed": "Case studies, expert opinions, and historical examples demonstrating how citing ancient texts has led to significant breakthroughs or challenges in various fields.",
+                        "argument_development": "Detail specific instances where citing ancient texts without full understanding has contributed to the development of new ideas or perspectives, while acknowledging potential limitations."
+                    },
+                    {
+                        "section": "Limitations and Challenges of Citing Ancient Texts Without Full Understanding",
+                        "purpose": "To discuss the drawbacks of citing ancient texts without fully understanding their context or meaning.",
+                        "evidence_needed": "Examples of how cultural biases have influenced interpretations of ancient texts, along with case studies of unsuccessful attempts to interpret them without full comprehension.",
+                        "argument_development": "Explain how scholars' preconceptions and limitations in understanding the historical and cultural contexts of ancient texts can lead to misinterpretations or misunderstandings."
+                    },
+                    {
+                        "section": "Power Dynamics and Cultural Heritage",
+                        "purpose": "To explore the role of power dynamics in shaping the way ancient texts are interpreted and used.",
+                        "evidence_needed": "Examples of how colonialism, imperialism, or other forms of cultural domination have influenced the interpretation and use of ancient texts, along with case studies of disputes over ownership or control.",
+                        "argument_development": "Discuss how power dynamics affect the transmission, translation, and dissemination of ancient texts throughout history, highlighting potential ethical implications."
+                    },
+                    {
+                        "section": "Methods for Better Understanding Ancient Texts",
+                        "purpose": "To explore methods and tools available for scholars to better understand the context and meaning of ancient texts.",
+                        "evidence_needed": "Notable advances in archaeology, epigraphy, or other relevant fields that have improved our understanding of ancient contexts, along with examples of interdisciplinary approaches.",
+                        "argument_development": "Highlight the importance of developing new methods and tools for scholars to better understand ancient texts, including the potential role of digital humanities and computational methods."
+                    },
+                    {
+                        "section": "Conclusion",
+                        "purpose": "To summarize the main arguments and reinforce the thesis statement.",
+                        "evidence_needed": "Recap of key points discussed in the essay.",
+                        "argument_development": "Conclude by emphasizing the importance of understanding the historical and cultural contexts of ancient texts while acknowledging the potential benefits and limitations of citing them without full comprehension."
+                    }
+                ]
 
-            Sample Question:
+                Sample Question:
 
-            "Explain the pros and cons practices of citing ancient texts without fully understanding their context or meaning"
+                "Explain the pros and cons practices of citing ancient texts without fully understanding their context or meaning"
 
-            Sample Summarised Context:
+                Sample Summarised Context:
 
-            **Introduction**
+                **Introduction**
 
-            * The author, Thomas Hobbes, introduces his work on Leviathan
-            * He argues that his speaking with Moses is unique compared to other prophets, such as Samuel and Abraham
-            * He grounds his doctrine in reason and natural inclinations of mankind, rather than ancient texts
+                * The author, Thomas Hobbes, introduces his work on Leviathan
+                * He argues that his speaking with Moses is unique compared to other prophets, such as Samuel and Abraham
+                * He grounds his doctrine in reason and natural inclinations of mankind, rather than ancient texts
 
-            **Challenges to the Doctrine**
+                **Challenges to the Doctrine**
 
-            * Hobbes anticipates challenges from those who hold contrary opinions
-            * He acknowledges that readers may be distracted by searching for objections to what they have already read
-            * He emphasizes that his doctrine is based on reason and Scripture, making it immune to attacks from ancient writers or philosophers
+                * Hobbes anticipates challenges from those who hold contrary opinions
+                * He acknowledges that readers may be distracted by searching for objections to what they have already read
+                * He emphasizes that his doctrine is based on reason and Scripture, making it immune to attacks from ancient writers or philosophers
 
-            **Ancient Texts**
+                **Ancient Texts**
 
-            * Hobbes critiques the practice of citing ancient texts without fully understanding their context or meaning
-            * He argues that reverence for antiquity is not a valid argument in favor of an idea
-            * He suggests that the value of ancient authors lies in their contributions to truth, rather than their age
+                * Hobbes critiques the practice of citing ancient texts without fully understanding their context or meaning
+                * He argues that reverence for antiquity is not a valid argument in favor of an idea
+                * He suggests that the value of ancient authors lies in their contributions to truth, rather than their age
 
-            **Conclusion**
+                **Conclusion**
 
-            * Hobbes concludes that his doctrine does not contradict God's word or good manners
-            * He suggests that it may be beneficial to print and teach his work in universities, as a means of promoting civil and moral doctrine
-            * He hopes that his work will contribute to the promotion of peace and stability by providing a clear understanding of the mutual relationship between protection and obedience. 
+                * Hobbes concludes that his doctrine does not contradict God's word or good manners
+                * He suggests that it may be beneficial to print and teach his work in universities, as a means of promoting civil and moral doctrine
+                * He hopes that his work will contribute to the promotion of peace and stability by providing a clear understanding of the mutual relationship between protection and obedience. 
 
-            Sample Output:
+                Sample Output:
 
-            [
-                {
-                    "section": "Introduction",
-                    "purpose": "To introduce the topic and provide a thesis statement.",
-                    "evidence_needed": "General background information on the historical and cultural contexts of ancient texts, including definitions and context.",
-                    "argument_development": "Explain the significance of understanding the historical and cultural contexts of ancient texts, highlighting the potential risks and benefits of citing them without full comprehension. Reference Hobbes' approach to grounding his doctrine in reason and natural inclinations rather than ancient texts."
-                },
-                {
-                    "section": "Hobbes' Critique of Ancient Texts",
-                    "purpose": "To outline Hobbes' views on the practice of citing ancient texts without fully understanding their context or meaning.",
-                    "evidence_needed": "Specific examples from Hobbes' work where he critiques reverence for antiquity and emphasizes the importance of reason and Scripture.",
-                    "argument_development": "Detail Hobbes' argument that the value of ancient authors lies in their contributions to truth rather than their age. Discuss how Hobbes uses his critique to support his doctrine."
-                },
-                {
-                    "section": "Benefits of Citing Ancient Texts Without Full Understanding",
-                    "purpose": "To outline the key advantages of citing ancient texts without fully understanding their context or meaning.",
-                    "evidence_needed": "Case studies, expert opinions, and historical examples demonstrating how citing ancient texts has led to significant breakthroughs or challenges in various fields.",
-                    "argument_development": "Detail specific instances where citing ancient texts without full understanding has contributed to the development of new ideas or perspectives, while acknowledging potential limitations. Highlight potential benefits mentioned by Hobbes."
-                },
-                {
-                    "section": "Limitations and Challenges of Citing Ancient Texts Without Full Understanding",
-                    "purpose": "To discuss the drawbacks of citing ancient texts without fully understanding their context or meaning.",
-                    "evidence_needed": "Examples of how cultural biases have influenced interpretations of ancient texts, along with case studies of unsuccessful attempts to interpret them without full comprehension.",
-                    "argument_development": "Explain how scholars' preconceptions and limitations in understanding the historical and cultural contexts of ancient texts can lead to misinterpretations or misunderstandings. Use Hobbes' critique as a case point for potential pitfalls."
-                },
-                {
-                    "section": "Power Dynamics and Cultural Heritage",
-                    "purpose": "To explore the role of power dynamics in shaping the way ancient texts are interpreted and used.",
-                    "evidence_needed": "Examples of how colonialism, imperialism, or other forms of cultural domination have influenced the interpretation and use of ancient texts, along with case studies of disputes over ownership or control.",
-                    "argument_development": "Discuss how power dynamics affect the transmission, translation, and dissemination of ancient texts throughout history, highlighting potential ethical implications. Mention Hobbes' hope for his work to promote peace and stability."
-                },
-                {
-                    "section": "Methods for Better Understanding Ancient Texts",
-                    "purpose": "To explore methods and tools available for scholars to better understand the context and meaning of ancient texts.",
-                    "evidence_needed": "Notable advances in archaeology, epigraphy, or other relevant fields that have improved our understanding of ancient contexts, along with examples of interdisciplinary approaches.",
-                    "argument_development": "Highlight the importance of developing new methods and tools for scholars to better understand ancient texts, including the potential role of digital humanities and computational methods. Mention Hobbes' emphasis on reason and Scripture as a model."
-                },
-                {
-                    "section": "Conclusion",
-                    "purpose": "To summarize the main arguments and reinforce the thesis statement.",
-                    "evidence_needed": "Recap of key points discussed in the essay.",
-                    "argument_development": "Conclude by emphasizing the importance of understanding the historical and cultural contexts of ancient texts while acknowledging the potential benefits and limitations of citing them without full comprehension. Reinforce Hobbes' contributions to the discussion."
-                }
-            ]
-            Put the output between <output> and </output> tags.
+                [
+                    {
+                        "section": "Introduction",
+                        "purpose": "To introduce the topic and provide a thesis statement.",
+                        "evidence_needed": "General background information on the historical and cultural contexts of ancient texts, including definitions and context.",
+                        "argument_development": "Explain the significance of understanding the historical and cultural contexts of ancient texts, highlighting the potential risks and benefits of citing them without full comprehension. Reference Hobbes' approach to grounding his doctrine in reason and natural inclinations rather than ancient texts."
+                    },
+                    {
+                        "section": "Hobbes' Critique of Ancient Texts",
+                        "purpose": "To outline Hobbes' views on the practice of citing ancient texts without fully understanding their context or meaning.",
+                        "evidence_needed": "Specific examples from Hobbes' work where he critiques reverence for antiquity and emphasizes the importance of reason and Scripture.",
+                        "argument_development": "Detail Hobbes' argument that the value of ancient authors lies in their contributions to truth rather than their age. Discuss how Hobbes uses his critique to support his doctrine."
+                    },
+                    {
+                        "section": "Benefits of Citing Ancient Texts Without Full Understanding",
+                        "purpose": "To outline the key advantages of citing ancient texts without fully understanding their context or meaning.",
+                        "evidence_needed": "Case studies, expert opinions, and historical examples demonstrating how citing ancient texts has led to significant breakthroughs or challenges in various fields.",
+                        "argument_development": "Detail specific instances where citing ancient texts without full understanding has contributed to the development of new ideas or perspectives, while acknowledging potential limitations. Highlight potential benefits mentioned by Hobbes."
+                    },
+                    {
+                        "section": "Limitations and Challenges of Citing Ancient Texts Without Full Understanding",
+                        "purpose": "To discuss the drawbacks of citing ancient texts without fully understanding their context or meaning.",
+                        "evidence_needed": "Examples of how cultural biases have influenced interpretations of ancient texts, along with case studies of unsuccessful attempts to interpret them without full comprehension.",
+                        "argument_development": "Explain how scholars' preconceptions and limitations in understanding the historical and cultural contexts of ancient texts can lead to misinterpretations or misunderstandings. Use Hobbes' critique as a case point for potential pitfalls."
+                    },
+                    {
+                        "section": "Power Dynamics and Cultural Heritage",
+                        "purpose": "To explore the role of power dynamics in shaping the way ancient texts are interpreted and used.",
+                        "evidence_needed": "Examples of how colonialism, imperialism, or other forms of cultural domination have influenced the interpretation and use of ancient texts, along with case studies of disputes over ownership or control.",
+                        "argument_development": "Discuss how power dynamics affect the transmission, translation, and dissemination of ancient texts throughout history, highlighting potential ethical implications. Mention Hobbes' hope for his work to promote peace and stability."
+                    },
+                    {
+                        "section": "Methods for Better Understanding Ancient Texts",
+                        "purpose": "To explore methods and tools available for scholars to better understand the context and meaning of ancient texts.",
+                        "evidence_needed": "Notable advances in archaeology, epigraphy, or other relevant fields that have improved our understanding of ancient contexts, along with examples of interdisciplinary approaches.",
+                        "argument_development": "Highlight the importance of developing new methods and tools for scholars to better understand ancient texts, including the potential role of digital humanities and computational methods. Mention Hobbes' emphasis on reason and Scripture as a model."
+                    },
+                    {
+                        "section": "Conclusion",
+                        "purpose": "To summarize the main arguments and reinforce the thesis statement.",
+                        "evidence_needed": "Recap of key points discussed in the essay.",
+                        "argument_development": "Conclude by emphasizing the importance of understanding the historical and cultural contexts of ancient texts while acknowledging the potential benefits and limitations of citing them without full comprehension. Reinforce Hobbes' contributions to the discussion."
+                    }
+                ]
+                Put the output between <output> and </output> tags.
     
     extract_restructurer:
         action: extract_xml_tag
@@ -279,9 +276,9 @@ flow:
             link: restructurerTojson.json_object
         flow:
             key_gen:
-                action: prompt
+                action: llm
                 prompt:
-                - text: |
+                    - text: |
                         The paragraph structure below is a part of a bigger essay, to answer the question {{message}}
 
                         Paragraph Structure:
@@ -319,7 +316,7 @@ flow:
                 action: extract_xml_tag
                 tag: output
                 text:
-                    link: key_gen.result     
+                    link: key_gen.result    
             retrieval:
                 action: retrieve
                 k: 10
@@ -349,7 +346,7 @@ flow:
                 query:
                     link: extract_keywords.result
             para_writer:
-                action: prompt
+                action: llm
                 prompt:
                     - text: |
                         You are in charge of writing a paragraph as part of a longer essay, focusing on {{message}}. Make Sure the paragraph you write is detailed and compelling. Write at least 200 words if not more. 
@@ -426,7 +423,7 @@ flow:
                         {% endfor %}
 
     essayfinaliser:
-        action: prompt
+        action: llm
         prompt:
             - text: |
                 You are an Oxford Professor. Your proud student has read a lot of reading to answer the question {{message}}. You have received his writing on each paragraph and the citations.
