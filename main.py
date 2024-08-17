@@ -1,5 +1,6 @@
-from aijson import Flow
+from aijson import Flow, RedisCacheRepo
 import asyncio
+import my_actions
 from dotenv import load_dotenv
 import glob
 import os
@@ -32,7 +33,10 @@ async def main():
         return
     
     # load the flow
-    flow = Flow.from_file('omniAns.ai.yaml').set_vars(
+    flow = Flow.from_file(
+        'omniAns.ai.yaml',
+        cache_repo=RedisCacheRepo
+    ).set_vars(
         pdf_filepaths=document_paths,
     )
 
@@ -42,11 +46,13 @@ async def main():
 
     # run it
     result = await flow.run()
+    
+    
     print(result)
 
-    # alternatively, INSTEAD of running it, stream it
-    async for result in flow.stream():
-        print(result)
+    # # alternatively, INSTEAD of running it, stream it
+    # async for result in flow.stream():
+    #     print(result)
 
 if __name__ == '__main__':
     asyncio.run(main())

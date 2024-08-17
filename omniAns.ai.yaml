@@ -1,7 +1,7 @@
 version: "0.1"
 
 default_model:
-    model: azure/welight-4o
+    model: azure/welight-4o-mini
 
 flow:
     insight_analyst:
@@ -93,7 +93,7 @@ flow:
                     }
                     ]
                 Put the output between <output> and </output> tags.
-
+        
     extract_outlining:
         action: extract_xml_tag
         tag: output
@@ -112,7 +112,7 @@ flow:
                 file:
                     var: filepath
             summarize:
-                action: prompt
+                action: llm
                 prompt:
                     - text: |
                         Summarize the core idea and essential information of the pdf structurally. 
@@ -273,7 +273,7 @@ flow:
     essay_writer: 
         for: para_struct
         in: 
-            link: restructurerTojson.json_object
+            link: restructurerTojson
         flow:
             key_gen:
                 action: llm
@@ -386,41 +386,51 @@ flow:
 
                         Make sure the output is in the correct json format:
                         {"Paragraph": paragraph, "References": ["Reference 1", "Reference 2", ...]}
+                output_schema:
+                    action_items:
+                        type: object
+                        properties:
+                            Paragraph:
+                                type: string
+                                description: "The content of the paragraph."
+                            References:
+                                type: array
+                                items:
+                                    type: string
+                                description: "A list of references associated with the paragraph."
 
-                        Put the output between <output> and </output> tags.
+            # extract_paragraph:
+            #     action: extract_xml_tag
+            #     tag: output
+            #     text:
+            #         link: para_writer.result
 
-            extract_paragraph:
-                action: extract_xml_tag
-                tag: output
-                text:
-                    link: para_writer.result
+            # get_para_output:
+            #     action: load_json
+            #     json_string: 
+            #         var: extract_paragraph.result
 
-            get_para_output:
-                action: load_json
-                json_string: 
-                    var: extract_paragraph.result
+    essay1stdraft:
+        action: create_string
+        string: 
+            text: |
+                Essay:
 
-            essay1stdraft:
-                action: create_string
-                string: 
-                    text: |
-                        Essay:
+                {% for flow in essay_writer %}        
+                {% for output in flow.para_writer %}
+                    {{ output[1].action_items.Paragraph }}
+                {% endfor %}
+                {% endfor %}
 
-                        {% for flow in essay_writer %}        
-                        {% for output in flow.get_para_output %}
-                            {{ output}}
-                        {% endfor %}
-                        {% endfor %}
+                References:
 
-                        References:
-
-                        {% for flow in essay_writer %}        
-                        {% for output in flow.get_para_output.json_object %}
-                        {% for reference in output.References %}
-                            {{ reference }}
-                        {% endfor %}
-                        {% endfor %}
-                        {% endfor %}
+                {% for flow in essay_writer %}        
+                {% for output in flow.para_writer %}
+                {% for reference in output[1].action_items.References %}
+                    {{ reference }}
+                {% endfor %}
+                {% endfor %}
+                {% endfor %}
 
     essayfinaliser:
         action: llm
@@ -432,7 +442,7 @@ flow:
                 
                 The first draft of the essay is as follows:
 
-                {{ essay1stdraft.string }}
+                {{ essay1stdraft }}
 
                 Sample Output:
 

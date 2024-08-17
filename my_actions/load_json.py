@@ -1,29 +1,17 @@
 import json
-from asyncflows.actions.base import Action, BaseModel, Field
 from typing import Any
+from aijson import register_action
 
-class Inputs(BaseModel):
-    json_string: str = Field(
-        description="JSON-like string to be transformed into JSON",
-    )
-
-class Outputs(BaseModel):
-    json_object: Any = Field(
-        description="Resulting JSON object",
-    )
-
-class LoadJSON(Action[Inputs, Outputs]):
-    name = "load_json"
-
-    async def run(self, inputs: Inputs) -> Outputs:
-        print(inputs.json_string)
-        try:
-            json_object = json.loads(inputs.json_string)
-        except json.JSONDecodeError as e:
-            self.log.error("Failed to parse json",
-            data=inputs.json_string)
-            raise ValueError(f"Invalid JSON string: {e}")
-        return Outputs(json_object=json_object)
+@register_action
+def load_json(json_string: str) -> Any:
+    try:
+        json_object = json.loads(json_string)
+        print(json_object)
+    except json.JSONDecodeError as e:
+        print("Failed to parse json",
+        data=json_string)
+        raise ValueError(f"Invalid JSON string: {e}")
+    return json_object    
 
 # Example usage:
 # inputs = Inputs(json_string='{"key": "value"}')
